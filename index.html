@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neurodiversity Manager's Toolkit — Inclusivity Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#1A2459;--orange:#F47B20;--pink:#E8005A;--hot-pink:#D63384;
+  --soft-orange:#FDE8D0;--soft-pink:#FDEEF4;--orange-mid:#F9C49A;--pink-mid:#F5AACF;
+  --teal:#0F6E56;--soft-teal:#E1F5EE;--purple:#534AB7;--soft-purple:#EEEDFE;--purple-mid:#AFA9EC;
+  --amber:#EF9F27;--soft-amber:#FAEEDA;
+  --white:#FFFFFF;--warm-bg:#FFF8F4;--off-white:#FAFAFA;
+  --text-dark:#1A1A2E;--text-mid:#5A4A5A;--text-light:#8A7A8A;--text-faint:#B0A8B0;
+  --border:#E8E0E8;--border-light:#F0EAF0;
+  --radius-md:10px;--radius-lg:14px;
+  --shadow-sm:0 1px 4px rgba(0,0,0,0.06);--shadow-md:0 4px 16px rgba(0,0,0,0.09);
+}
+body{font-family:'Montserrat',sans-serif;background:var(--warm-bg);color:var(--text-dark);min-height:100vh;overflow-x:hidden}
+button{font-family:'Montserrat',sans-serif;cursor:pointer}
+.app{display:flex;flex-direction:column;min-height:100vh}
+.page{display:none;flex:1;flex-direction:column}
+.page.active{display:flex}
+.content-wrap{max-width:700px;margin:0 auto;padding:24px 20px 60px;width:100%}
+
+/* HEADER */
+.header{background:var(--navy);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-shrink:0}
+.header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--pink),var(--hot-pink))}
+.header-logo{height:48px;width:auto;display:block}
+.header-right{display:flex;align-items:center;gap:10px}
+.header-pill{font-size:11px;font-weight:700;color:var(--navy);background:var(--orange);padding:5px 12px;border-radius:20px;white-space:nowrap}
+.back-btn{font-size:12px;font-weight:600;color:rgba(255,255,255,0.7);background:rgba(255,255,255,0.1);border:none;border-radius:20px;padding:6px 12px;display:none;align-items:center;gap:5px;transition:all 0.15s}
+.back-btn:hover{background:rgba(255,255,255,0.18);color:white}
+.back-btn.visible{display:flex}
+
+/* HOME */
+.hero{background:linear-gradient(160deg,var(--navy) 0%,#2B3470 100%);padding:44px 24px 52px;position:relative;overflow:hidden;flex-shrink:0}
+.hero-blob-1{position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(244,123,32,0.18) 0%,transparent 70%);pointer-events:none}
+.hero-blob-2{position:absolute;bottom:-60px;left:-40px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(232,0,90,0.14) 0%,transparent 70%);pointer-events:none}
+.hero-inner{position:relative;max-width:600px;margin:0 auto}
+.hero-chip{display:inline-flex;align-items:center;gap:8px;background:rgba(244,123,32,0.2);border:1px solid rgba(244,123,32,0.4);border-radius:20px;padding:5px 14px;margin-bottom:22px}
+.hero-chip-dot{width:7px;height:7px;border-radius:50%;background:var(--orange);animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.75)}}
+.hero-chip span{font-size:11px;font-weight:700;color:var(--orange);letter-spacing:0.06em;text-transform:uppercase}
+.hero-title{font-size:30px;font-weight:900;color:var(--white);line-height:1.18;letter-spacing:-0.5px;margin-bottom:16px}
+.hero-title .ao{color:var(--orange)}.hero-title .ap{color:#FF6EB4}
+.hero-sub{font-size:13px;font-weight:500;color:rgba(255,255,255,0.70);line-height:1.75;max-width:460px;margin-bottom:26px}
+.hero-note{display:inline-flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,0.08);border-radius:12px;padding:12px 16px;max-width:480px}
+.hero-note-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.hero-note-text{font-size:12px;font-weight:500;color:rgba(255,255,255,0.65);line-height:1.6}
+.hero-note-text strong{color:rgba(255,255,255,0.92);font-weight:700}
+.question-banner{background:linear-gradient(90deg,var(--orange) 0%,var(--hot-pink) 100%);padding:16px 24px;text-align:center;flex-shrink:0}
+.question-banner p{font-size:14px;font-weight:800;color:var(--white)}
+.pathways-wrap{max-width:700px;margin:0 auto;padding:28px 20px 40px}
+.pathways-label{font-size:10px;font-weight:700;color:var(--text-light);letter-spacing:0.1em;text-transform:uppercase;text-align:center;margin-bottom:16px}
+.pathway-card{border-radius:var(--radius-lg);margin-bottom:10px;cursor:pointer;border:1.5px solid transparent;transition:transform 0.18s ease,box-shadow 0.18s ease;opacity:0;transform:translateY(16px);animation:riseUp 0.4s ease forwards}
+.pathway-card:nth-child(2){animation-delay:0.06s}.pathway-card:nth-child(3){animation-delay:0.12s}.pathway-card:nth-child(4){animation-delay:0.18s}.pathway-card:nth-child(5){animation-delay:0.24s}
+@keyframes riseUp{to{opacity:1;transform:translateY(0)}}
+.pathway-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.c-orange{background:var(--soft-orange);border-color:var(--orange-mid)}.c-pink{background:var(--soft-pink);border-color:var(--pink-mid)}.c-peach{background:#FEF0E6;border-color:#F9C49A}.c-rose{background:#FDF0F6;border-color:#F5B8D5}
+.pathway-inner{display:flex;align-items:center;gap:16px;padding:16px 18px}
+.p-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+.pi-orange{background:var(--orange)}.pi-pink{background:var(--hot-pink)}.pi-deep-orange{background:#E8621A}.pi-deep-pink{background:var(--pink)}
+.p-text{flex:1;min-width:0}
+.p-num{font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:3px}
+.pn-orange{color:var(--orange)}.pn-pink{color:var(--hot-pink)}.pn-deep-orange{color:#C0521A}.pn-deep-pink{color:var(--pink)}
+.p-title{font-size:14px;font-weight:800;color:var(--text-dark);line-height:1.2;margin-bottom:4px}
+.p-desc{font-size:12px;font-weight:500;color:var(--text-mid);line-height:1.5}
+.p-arrow{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;transition:transform 0.18s ease;font-weight:700}
+.pathway-card:hover .p-arrow{transform:translateX(4px)}
+.pa-orange{background:var(--orange);color:white}.pa-pink{background:var(--hot-pink);color:white}.pa-deep-orange{background:#E8621A;color:white}.pa-deep-pink{background:var(--pink);color:white}
+.reassurance{background:linear-gradient(135deg,#FEF3EC 0%,#FDE9F2 100%);border-top:1.5px solid var(--orange-mid);padding:20px 24px;display:flex;align-items:flex-start;gap:14px;flex-shrink:0}
+.r-icon{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--hot-pink));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.r-text p{font-size:12px;font-weight:500;color:var(--text-mid);line-height:1.7}
+.r-text p strong{color:var(--text-dark);font-weight:700}
+.kate-strip{background:var(--navy);padding:18px 24px;display:flex;align-items:center;gap:14px;flex-shrink:0}
+.kate-avatar{width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;border:2px solid var(--orange);background:white}
+.kate-avatar img{width:100%;height:100%;object-fit:cover}
+.kate-text .kt-label{font-size:10px;font-weight:700;color:rgba(255,255,255,0.4);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:2px}
+.kate-text .kt-name{font-size:13px;font-weight:800;color:var(--white);margin-bottom:3px}
+.kate-text .kt-name span{color:var(--orange)}
+.kate-text .kt-bio{font-size:11px;font-weight:500;color:rgba(255,255,255,0.55);line-height:1.5}
+.site-footer{background:#111830;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;flex-shrink:0}
+.footer-l{font-size:10px;font-weight:600;color:rgba(255,255,255,0.3)}.footer-l span{color:var(--orange)}
+.footer-r{font-size:10px;color:rgba(255,255,255,0.2)}
+
+/* SHARED */
+.pathway-intro{margin-bottom:28px}
+.pathway-eyebrow{font-size:11px;font-weight:700;color:var(--text-light);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:8px}
+.pathway-intro h2{font-size:22px;font-weight:700;color:var(--text-dark);margin-bottom:8px;line-height:1.25}
+.pathway-intro p{font-size:14px;color:var(--text-mid);line-height:1.7}
+.step-block{margin-bottom:24px}
+.step-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.step-num{width:28px;height:28px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;flex-shrink:0}
+.step-title{font-size:15px;font-weight:600;color:var(--text-dark)}
+.step-sub{font-size:13px;color:var(--text-mid);margin-top:2px}
+.opt-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt-card{border:0.5px solid var(--border);border-radius:var(--radius-md);padding:12px 14px;cursor:pointer;transition:all 0.15s;background:white}
+.opt-card:hover{background:var(--off-white)}.opt-card.selected{border-color:var(--purple-mid);background:var(--soft-purple)}
+.opt-card .oc-icon{font-size:20px;margin-bottom:6px}.opt-card .oc-title{font-size:13px;font-weight:600;color:var(--text-dark);margin-bottom:3px}.opt-card .oc-desc{font-size:12px;color:var(--text-mid);line-height:1.5}
+.opt-card.selected .oc-title{color:#3C3489}
+.tip-bar{display:flex;gap:10px;align-items:flex-start;background:var(--off-white);border-radius:var(--radius-md);padding:12px 14px;margin-top:10px;border:0.5px solid var(--border-light)}
+.tip-bar i{font-size:15px;color:var(--text-faint);flex-shrink:0;margin-top:1px}.tip-bar p{font-size:13px;color:var(--text-mid);line-height:1.6;margin:0}
+.gen-btn{width:100%;padding:14px;border-radius:var(--radius-lg);background:var(--purple);color:white;font-size:14px;font-weight:700;border:none;transition:background 0.15s;margin-top:8px}
+.gen-btn:hover{background:#3C3489}.gen-btn:disabled{background:var(--border);color:var(--text-faint);cursor:not-allowed}
+.divider{height:0.5px;background:var(--border);margin:28px 0}
+.results{display:none}.results.visible{display:block}
+.notice-bar{background:var(--soft-amber);border-radius:var(--radius-md);padding:12px 16px;margin-bottom:16px;display:flex;gap:10px;align-items:flex-start}
+.notice-bar i{font-size:18px;color:#854F0B;flex-shrink:0;margin-top:1px}.notice-bar p{font-size:13px;color:#633806;line-height:1.6;margin:0}.notice-bar strong{font-weight:700}
+.cta-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.cta-primary{padding:13px;border-radius:var(--radius-lg);background:var(--purple);color:white;font-size:13px;font-weight:700;border:none;transition:background 0.15s}.cta-primary:hover{background:#3C3489}
+.cta-secondary{padding:13px;border-radius:var(--radius-lg);background:transparent;color:var(--purple);font-size:13px;font-weight:700;border:0.5px solid var(--purple-mid);transition:background 0.15s}.cta-secondary:hover{background:var(--soft-purple)}
+.reset-btn{display:block;margin:14px auto 0;font-size:12px;color:var(--text-faint);background:none;border:none;text-decoration:underline}
+.ctx-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.ctx-chip{font-size:11px;font-weight:600;padding:3px 10px;border-radius:10px;background:white;color:var(--text-mid);border:0.5px solid var(--border)}
+.section-label{font-size:11px;font-weight:700;color:var(--text-faint);letter-spacing:0.06em;text-transform:uppercase;margin:16px 0 10px}
+.section-block{margin-bottom:22px}
+.sh-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sh-icon{width:30px;height:30px;border-radius:50%;background:var(--soft-purple);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.sh-title{font-size:14px;font-weight:600;color:var(--text-dark)}
+
+/* CHALLENGE */
+.ctx-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cat-label{font-size:11px;font-weight:700;color:var(--text-light);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px}
+.tag-row{display:flex;flex-wrap:wrap;gap:6px}
+.ch-tag{font-size:12px;font-weight:500;padding:6px 12px;border-radius:20px;border:0.5px solid var(--border);color:var(--text-mid);background:white;cursor:pointer;transition:all 0.15s;user-select:none}
+.ch-tag:hover{background:var(--off-white)}.ch-tag.selected{background:var(--soft-purple);border-color:var(--purple-mid);color:#3C3489;font-weight:600}
+.dur-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.dur-card{border:0.5px solid var(--border);border-radius:var(--radius-md);padding:10px 12px;cursor:pointer;transition:all 0.15s;text-align:center;background:white}
+.dur-card:hover{background:var(--off-white)}.dur-card.selected{border-color:var(--purple-mid);background:var(--soft-purple)}
+.dur-card span{font-size:13px;font-weight:500;color:var(--text-mid)}.dur-card.selected span{color:#3C3489;font-weight:600}
+.sel-count{font-size:12px;color:var(--text-faint);margin-top:8px;text-align:center}.sel-count span{color:var(--purple);font-weight:600}
+.results-hero{background:linear-gradient(135deg,var(--soft-purple) 0%,var(--soft-teal) 100%);border-radius:var(--radius-lg);padding:18px;margin-bottom:18px}
+.results-hero h3{font-size:17px;font-weight:700;color:var(--text-dark);margin-bottom:6px}.results-hero p{font-size:13px;color:var(--text-mid);line-height:1.65}
+.match-card{border:0.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:10px;overflow:hidden;background:white}
+.match-inner{display:flex;align-items:flex-start;gap:14px;padding:14px 16px}
+.match-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.match-body{flex:1;min-width:0}
+.match-name{font-size:14px;font-weight:600;color:var(--text-dark);margin-bottom:4px}
+.match-why{font-size:12px;color:var(--text-mid);line-height:1.55;margin-bottom:8px}
+.match-tags{display:flex;flex-wrap:wrap;gap:5px}
+.match-tag{font-size:11px;padding:3px 8px;border-radius:10px;background:var(--off-white);color:var(--text-mid);border:0.5px solid var(--border)}
+.match-strength{display:flex;align-items:center;gap:6px;margin-top:8px}
+.strength-bar{flex:1;height:4px;border-radius:2px;background:var(--border-light);overflow:hidden}
+.strength-fill{height:100%;border-radius:2px;background:var(--purple);transition:width 0.6s ease}
+.strength-label{font-size:11px;color:var(--text-faint);white-space:nowrap}
+.view-btn{font-size:12px;font-weight:600;color:var(--purple);background:transparent;border:0.5px solid var(--purple-mid);border-radius:var(--radius-md);padding:6px 12px;cursor:pointer;margin-top:8px;display:inline-block;transition:background 0.15s;text-decoration:none}
+.view-btn:hover{background:var(--soft-purple)}
+.action-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border-light)}
+.action-item:last-child{border-bottom:none}
+.ae{font-size:11px;font-weight:600;padding:3px 8px;border-radius:10px;white-space:nowrap;flex-shrink:0;margin-top:1px}
+.ae-now{background:var(--soft-teal);color:var(--teal)}.ae-soon{background:var(--soft-amber);color:#633806}.ae-refer{background:var(--soft-purple);color:#3C3489}
+.action-text strong{font-size:13px;font-weight:600;color:var(--text-dark);display:block;margin-bottom:2px}
+.action-text span{font-size:12px;color:var(--text-mid);line-height:1.55}
+
+/* CONDITION SELECTOR */
+.condition-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.cond-btn{border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:18px 12px;cursor:pointer;background:white;text-align:center;transition:all 0.18s;display:flex;flex-direction:column;align-items:center;gap:8px;text-decoration:none}
+.cond-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-sm);border-color:var(--purple-mid);background:var(--soft-purple)}
+.cb-icon{font-size:28px}.cb-name{font-size:12px;font-weight:600;color:var(--text-mid);line-height:1.3}
+.cond-btn:hover .cb-name{color:#3C3489}
+
+/* CONVERSATION */
+.concern-row{display:flex;flex-wrap:wrap;gap:6px}
+.concern-tag{font-size:12px;font-weight:500;padding:6px 12px;border-radius:20px;border:0.5px solid var(--border);color:var(--text-mid);background:white;cursor:pointer;transition:all 0.15s;user-select:none}
+.concern-tag:hover{background:var(--off-white)}.concern-tag.selected{background:var(--soft-purple);border-color:var(--purple-mid);color:#3C3489;font-weight:600}
+.cond-selector{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.cond-card{border:0.5px solid var(--border);border-radius:var(--radius-md);padding:10px 13px;cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:10px;background:white}
+.cond-card:hover{background:var(--off-white)}.cond-card.selected{border-color:var(--purple-mid);background:var(--soft-purple)}
+.ci{font-size:17px;flex-shrink:0}.cn{font-size:13px;font-weight:500;color:var(--text-mid)}.cond-card.selected .cn{color:#3C3489;font-weight:600}
+.not-sure-btn{font-size:12px;font-weight:500;color:var(--text-mid);background:var(--off-white);border:0.5px solid var(--border);border-radius:var(--radius-md);padding:8px 14px;cursor:pointer;width:100%;text-align:center;margin-top:8px;transition:all 0.15s}
+.not-sure-btn:hover{background:var(--border-light)}.not-sure-btn.selected{border-color:var(--purple-mid);background:var(--soft-purple);color:#3C3489}
+.guide-hero{background:linear-gradient(135deg,var(--soft-purple) 0%,var(--soft-teal) 100%);border-radius:var(--radius-lg);padding:18px;margin-bottom:18px}
+.guide-hero h3{font-size:17px;font-weight:700;color:var(--text-dark);margin-bottom:5px}.guide-hero p{font-size:13px;color:var(--text-mid);line-height:1.65}
+.before-item{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border-light)}
+.before-item:last-child{border-bottom:none}
+.before-check{width:19px;height:19px;border-radius:4px;border:0.5px solid var(--border);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.15s;background:white}
+.before-check.done{background:var(--teal);border-color:var(--teal)}.before-check.done::after{content:"\2713";font-size:10px;color:white;font-weight:700}
+.before-text{font-size:13px;color:var(--text-mid);line-height:1.6;flex:1}.before-text.done{text-decoration:line-through;color:var(--text-faint)}
+.script-label{font-size:11px;font-weight:700;color:var(--text-faint);letter-spacing:0.05em;margin:12px 0 6px}
+.script-card{background:var(--off-white);padding:12px 14px;margin-top:8px;border-left:3px solid #9FE1CB}
+.script-card p{font-size:13px;color:var(--text-mid);line-height:1.6;margin:0;font-style:italic}
+.avoid-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border-light)}
+.avoid-item:last-child{border-bottom:none}
+.avoid-x{font-size:12px;color:#993C1D;font-weight:700;flex-shrink:0;margin-top:2px}
+.avoid-text{font-size:13px;color:var(--text-mid);line-height:1.55;flex:1}
+.listen-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border-light)}
+.listen-item:last-child{border-bottom:none}
+.li-icon{font-size:13px;color:var(--text-faint);flex-shrink:0;margin-top:2px}.listen-text{font-size:13px;color:var(--text-mid);line-height:1.55}
+.close-card{background:var(--off-white);border-radius:var(--radius-md);padding:13px 15px;border-left:3px solid var(--amber)}
+.close-card p{font-size:13px;color:var(--text-mid);line-height:1.65;margin:0}
+.after-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border-light)}
+.after-item:last-child{border-bottom:none}
+.after-icon{font-size:13px;color:var(--teal);flex-shrink:0;margin-top:2px}.after-text{font-size:13px;color:var(--text-mid);line-height:1.55}
+
+/* FOUNDATION */
+.progress-wrap{margin-bottom:24px}
+.prog-label{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.prog-label span{font-size:12px;font-weight:600;color:var(--text-faint)}.prog-label strong{font-size:12px;font-weight:700;color:var(--purple)}
+.prog-track{height:6px;background:var(--border-light);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--purple),#9FE1CB);border-radius:3px;transition:width 0.4s ease}
+.module-card{border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:box-shadow 0.18s;margin-bottom:10px;background:white}
+.module-card:hover{box-shadow:var(--shadow-sm)}
+.mod-hdr{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer}
+.mod-hdr:hover{background:var(--off-white)}
+.mod-num{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.mn-todo{background:var(--off-white);color:var(--text-faint);border:0.5px solid var(--border)}.mn-done{background:var(--teal);color:white}.mn-active{background:var(--purple);color:white}
+.mod-info{flex:1;min-width:0}.mod-title{font-size:14px;font-weight:600;color:var(--text-dark);margin-bottom:2px}.mod-desc{font-size:12px;color:var(--text-mid);line-height:1.4}
+.mod-meta{display:flex;align-items:center;gap:8px;flex-shrink:0}.mod-time{font-size:11px;color:var(--text-faint);white-space:nowrap}
+.mod-status{font-size:11px;font-weight:600;padding:3px 8px;border-radius:10px;white-space:nowrap}
+.ms-todo{background:var(--off-white);color:var(--text-faint)}.ms-done{background:var(--soft-teal);color:var(--teal)}.ms-active{background:var(--soft-purple);color:#3C3489}
+.mod-chev{font-size:15px;color:var(--text-faint);transition:transform 0.2s;flex-shrink:0}.mod-chev.open{transform:rotate(180deg)}
+.mod-body{display:none;border-top:0.5px solid var(--border-light);padding:0 16px 18px}
+.mod-content{margin-top:16px}.mod-content p{font-size:13px;color:var(--text-mid);line-height:1.75;margin-bottom:10px}
+.mod-content p:last-child{margin-bottom:0}.mod-content strong{color:var(--text-dark);font-weight:600}
+.callout{border-radius:var(--radius-md);padding:13px 15px;margin:12px 0}
+.callout-orange{background:#FEF0E6;border-left:3px solid var(--orange)}.callout-teal{background:var(--soft-teal);border-left:3px solid var(--teal)}
+.callout-purple{background:var(--soft-purple);border-left:3px solid var(--purple)}.callout-amber{background:var(--soft-amber);border-left:3px solid var(--amber)}
+.callout p{font-size:12px;line-height:1.65;margin:0}
+.callout-orange p{color:#7A3D0A}.callout-teal p{color:var(--teal)}.callout-purple p{color:#3C3489}.callout-amber p{color:#633806}
+.callout strong{font-weight:700}
+.kp-list{margin:10px 0}
+.kp-item{display:flex;align-items:flex-start;gap:10px;padding:7px 0;border-bottom:0.5px solid var(--border-light)}
+.kp-item:last-child{border-bottom:none}.kp-icon{font-size:15px;flex-shrink:0;margin-top:1px}
+.kp-text{font-size:12px;color:var(--text-mid);line-height:1.6}.kp-text strong{color:var(--text-dark)}
+.reflect-box{background:var(--off-white);border-radius:var(--radius-md);padding:13px 15px;margin-top:12px;border:0.5px solid var(--border)}
+.reflect-label{font-size:10px;font-weight:700;color:var(--text-faint);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:7px}
+.reflect-q{font-size:12px;color:var(--text-mid);line-height:1.65;font-style:italic}
+.myth-bust{background:var(--off-white);border-radius:var(--radius-md);padding:10px 13px;margin:7px 0}
+.myth-text{font-size:12px;color:var(--text-faint);text-decoration:line-through;margin-bottom:4px}.truth-text{font-size:12px;color:var(--text-mid);line-height:1.5}
+.strength-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.strength-card{background:var(--soft-teal);border-radius:var(--radius-md);padding:10px 12px;border:0.5px solid #9FE1CB}
+.sc-label{font-size:12px;font-weight:600;color:var(--teal);margin-bottom:2px}.sc-desc{font-size:11px;color:var(--teal);line-height:1.5}
+.law-row{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:0.5px solid var(--border-light)}
+.law-row:last-child{border-bottom:none}.law-icon{font-size:17px;flex-shrink:0;margin-top:1px}
+.law-text strong{font-size:12px;font-weight:600;color:var(--text-dark);display:block;margin-bottom:2px}
+.law-text span{font-size:12px;color:var(--text-mid);line-height:1.55}
+.complete-btn{width:100%;padding:12px;border-radius:var(--radius-md);background:var(--purple);color:white;font-size:13px;font-weight:700;border:none;cursor:pointer;margin-top:14px;transition:background 0.15s}
+.complete-btn:hover{background:#3C3489}.complete-btn.done{background:var(--teal);cursor:default}
+.completed-msg{display:none;text-align:center;padding:20px}
+.completed-msg .cm-icon{font-size:36px;margin-bottom:8px}
+.completed-msg h3{font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:5px}
+.completed-msg p{font-size:13px;color:var(--text-mid);line-height:1.65}
+.ns-block{border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-top:20px}
+.ns-header{background:linear-gradient(135deg,var(--soft-purple) 0%,var(--soft-teal) 100%);padding:18px}
+.ns-header h3{font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:5px}
+.ns-header p{font-size:13px;color:var(--text-mid);line-height:1.65;margin:0}
+.ns-section{padding:14px 18px;border-top:0.5px solid var(--border)}
+.ns-label{font-size:10px;font-weight:700;color:var(--text-faint);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px}
+.ns-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ns-btn{padding:10px 13px;border-radius:var(--radius-md);font-size:12px;font-weight:600;border:none;cursor:pointer;text-align:center;transition:all 0.15s}
+.ns-purple{background:var(--purple);color:white}.ns-purple:hover{background:#3C3489}
+.ns-outline{background:transparent;color:var(--purple);border:0.5px solid var(--purple-mid)}.ns-outline:hover{background:var(--soft-purple)}
+.is-section{padding:14px 18px;border-top:0.5px solid var(--border);background:var(--off-white)}
+.is-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.is-logo-w{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--orange),var(--hot-pink));display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.is-title{font-size:13px;font-weight:700;color:var(--text-dark)}.is-sub{font-size:11px;color:var(--text-mid);margin-top:1px}
+.is-intro{font-size:12px;color:var(--text-mid);line-height:1.65;margin-bottom:12px}
+.is-offerings{display:flex;flex-direction:column;gap:7px}
+.is-offering{border:0.5px solid var(--border);border-radius:var(--radius-md);padding:11px 13px;background:white;display:flex;align-items:flex-start;gap:10px;cursor:pointer;transition:all 0.15s}
+.is-offering:hover{background:var(--off-white);box-shadow:var(--shadow-sm)}
+.is-oi{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.io-orange{background:var(--soft-orange)}.io-pink{background:var(--soft-pink)}.io-teal{background:var(--soft-teal)}
+.is-ot{font-size:12px;font-weight:700;color:var(--text-dark);margin-bottom:2px}.is-od{font-size:11px;color:var(--text-mid);line-height:1.5}
+.is-arr{font-size:14px;color:var(--text-faint);flex-shrink:0;margin-top:8px;transition:transform 0.15s}
+.is-offering:hover .is-arr{transform:translateX(3px)}
+.is-cta{margin-top:10px}
+.is-cta-btn{width:100%;padding:11px;border-radius:var(--radius-md);background:linear-gradient(90deg,var(--orange),var(--hot-pink));color:white;font-size:12px;font-weight:700;border:none;cursor:pointer;transition:opacity 0.15s}
+.is-cta-btn:hover{opacity:0.9}
+</style>
+</head>
+<body>
+<div class="app">
+
+<header class="header">
+  <img src="data:image/png;base64,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yOpruoqMx7pAXLKttulSBIlQIz7waWx2jjQUrs1fSRkj6JwMjoa+L9hscj1Lt7PAd9RwInHHSewxjHBy9noOngKcKKSUgLjNotRZLJtsQtGR60UdinBe4uLtMY+nxc+LrnnTGNB6eOsV6kdt8Nx31dLbbKoyCltztFOKdHL6airmevKpRRUh7hsULQU3P2Cxvvh9+zwHHQ/6yFqjpKg7whPaZx9LAAz1wBSJ0/YRMjTBZreJMVoMx3RHTxNNgYCUnGQME8hTlRUZj3SAmVOkdKpaSynTdoDaHe2SkQ28Bf4wGOvnS3DT7c7VNuvciW6U25pxMeKAAgOLHCXCepPDyx05mnoGjNTnd3TKE2Q9O2CGHREslujh51L7gbjITxuJVxJWcDmoEZB7jXTc7Zbro021coEaY224HUJfaSsJWOigCORHjXTRUZjMykBN4sNjSEhNngAJKSkCOkY4V9onHLuWSoefPrThmiihJKmECvVeaWoRLRRRREUUUURFFFFQURRRRREUUUVKIooooiKKKKIkPSkoooiKUUUUKINJRRREUUUURFFFFERRRRREUUUURFFFFERRRRREUUUURFFFFERRRRREUUUURFA60UURKaSiigRFKKKKIlooooiKKKKIv//Z" alt="Inclusivity Solutions" class="header-logo">
+  <div class="header-right">
+    <button class="back-btn" id="back-btn" onclick="goHome()">&#8592; Home</button>
+    <div class="header-pill">Manager's Toolkit</div>
+  </div>
+</header>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-blob-1"></div><div class="hero-blob-2"></div>
+    <div class="hero-inner">
+      <div class="hero-chip"><div class="hero-chip-dot"></div><span>Neurodiversity at Work</span></div>
+      <h1 class="hero-title">Every team is<br><span class="ao">different.</span><br>That's the <span class="ap">point.</span></h1>
+      <p class="hero-sub">This tool helps you understand, support and confidently work alongside neurodivergent team members. No jargon. No judgement. Just warm, practical guidance built around real people doing real jobs.</p>
+      <div class="hero-note"><span class="hero-note-icon">&#128161;</span><span class="hero-note-text"><strong>You don't need all the answers.</strong> You just need to know where to start. Pick the pathway that fits where you are right now.</span></div>
+    </div>
+  </div>
+  <div class="question-banner"><p>Where would you like to begin today?</p></div>
+  <div class="pathways-wrap">
+    <p class="pathways-label">Choose your starting point</p>
+    <div class="pathway-card c-orange" onclick="goTo('page-challenge')">
+      <div class="pathway-inner"><div class="p-icon pi-orange">&#128064;</div><div class="p-text"><div class="p-num pn-orange">Pathway 1</div><div class="p-title">I'm noticing something</div><div class="p-desc">Something feels off but you're not sure what. Start here to identify what you're observing and what it might mean.</div></div><div class="p-arrow pa-orange">&#8594;</div></div>
+    </div>
+    <div class="pathway-card c-pink" onclick="goTo('page-condition')">
+      <div class="pathway-inner"><div class="p-icon pi-pink">&#128214;</div><div class="p-text"><div class="p-num pn-pink">Pathway 2</div><div class="p-title">I want to understand a condition</div><div class="p-desc">Someone has shared a diagnosis — or you want to learn more. Explore condition profiles written for managers, not clinicians.</div></div><div class="p-arrow pa-pink">&#8594;</div></div>
+    </div>
+    <div class="pathway-card c-peach" onclick="goTo('page-conversation')">
+      <div class="pathway-inner"><div class="p-icon pi-deep-orange">&#128172;</div><div class="p-text"><div class="p-num pn-deep-orange">Pathway 3</div><div class="p-title">I need to have a conversation</div><div class="p-desc">Not sure what to say or how to start? Get a tailored script and step-by-step preparation guide before you walk in.</div></div><div class="p-arrow pa-deep-orange">&#8594;</div></div>
+    </div>
+    <div class="pathway-card c-rose" onclick="goTo('page-foundation')">
+      <div class="pathway-inner"><div class="p-icon pi-deep-pink">&#9854;</div><div class="p-text"><div class="p-num pn-deep-pink">Pathway 4</div><div class="p-title">Help me understand neurodiversity</div><div class="p-desc">New to all of this? Build your foundation here — what neurodiversity is, why it matters, and how to lead with it every day.</div></div><div class="p-arrow pa-deep-pink">&#8594;</div></div>
+    </div>
+  </div>
+  <div class="reassurance">
+    <div class="r-icon">&#9878;</div>
+    <div class="r-text"><p><strong>You don't need a formal diagnosis to act.</strong> Under the Equality Act 2010 and ACAS guidance, support should be based on what someone needs — not on paperwork. This tool will help you understand your responsibilities and take confident, practical steps forward.</p></div>
+  </div>
+  <div class="kate-strip">
+    <div class="kate-avatar"><img src="data:image/png;base64,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" alt="Inclusivity Solutions"></div>
+    <div class="kate-text">
+      <div class="kt-label">Created by</div>
+      <div class="kt-name"><span>Kate Brennan</span></div>
+      <div class="kt-bio">Learning &amp; Development Specialist &nbsp;&middot;&nbsp; Neurodivergence lived experience &nbsp;&middot;&nbsp; 30+ years supporting colleagues and managers in the workplace</div>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="footer-l"><span>Inclusivity Solutions</span> &middot; Manager's Toolkit</div>
+    <div class="footer-r">Building productive workplaces for all</div>
+  </footer>
+</div>
+
+<!-- CHALLENGE-LED -->
+<div class="page" id="page-challenge">
+  <div class="content-wrap">
+    <div class="pathway-intro">
+      <div class="pathway-eyebrow">Pathway 1 &middot; Challenge-led</div>
+      <h2>I'm noticing something</h2>
+      <p>You don't need a diagnosis to use this pathway. Describe what you're observing, answer a few questions, and get practical guidance tailored to your situation.</p>
+    </div>
+    <div class="step-block">
+      <div class="step-header"><div class="step-num">1</div><div><div class="step-title">What's the context?</div><div class="step-sub">Choose the one that best describes where you are right now.</div></div></div>
+      <div class="ctx-grid">
+        <div class="opt-card" onclick="cpick('ctx','new')" id="cctx-new"><div class="oc-icon">&#127379;</div><div class="oc-title">Something has recently changed</div><div class="oc-desc">A new team member, role change or different environment</div></div>
+        <div class="opt-card" onclick="cpick('ctx','ongoing')" id="cctx-ongoing"><div class="oc-icon">&#128197;</div><div class="oc-title">This has been building over time</div><div class="oc-desc">Patterns I've been noticing for weeks or months</div></div>
+        <div class="opt-card" onclick="cpick('ctx','performance')" id="cctx-performance"><div class="oc-icon">&#128202;</div><div class="oc-title">Performance or output is affected</div><div class="oc-desc">Work quality, deadlines or accuracy isn't where it needs to be</div></div>
+        <div class="opt-card" onclick="cpick('ctx','wellbeing')" id="cctx-wellbeing"><div class="oc-icon">&#128155;</div><div class="oc-title">I'm concerned about their wellbeing</div><div class="oc-desc">They seem stressed, withdrawn or overwhelmed</div></div>
+      </div>
+    </div>
+    <div class="step-block">
+      <div class="step-header"><div class="step-num">2</div><div><div class="step-title">What are you noticing?</div><div class="step-sub">Select everything that applies.</div></div></div>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div><div class="cat-label">Organisation &amp; time</div><div class="tag-row"><div class="ch-tag" onclick="ctag(this)" data-id="deadlines">Missing deadlines</div><div class="ch-tag" onclick="ctag(this)" data-id="time">Poor time management</div><div class="ch-tag" onclick="ctag(this)" data-id="priority">Difficulty prioritising</div><div class="ch-tag" onclick="ctag(this)" data-id="planning">Struggles to plan ahead</div><div class="ch-tag" onclick="ctag(this)" data-id="late">Frequently late</div><div class="ch-tag" onclick="ctag(this)" data-id="disorganised">Appears disorganised</div></div></div>
+        <div><div class="cat-label">Concentration &amp; focus</div><div class="tag-row"><div class="ch-tag" onclick="ctag(this)" data-id="focus">Difficulty sustaining focus</div><div class="ch-tag" onclick="ctag(this)" data-id="distracted">Easily distracted</div><div class="ch-tag" onclick="ctag(this)" data-id="hyperfocus">Hyperfocuses on one thing</div><div class="ch-tag" onclick="ctag(this)" data-id="inconsistent">Inconsistent performance</div><div class="ch-tag" onclick="ctag(this)" data-id="starting">Difficulty starting tasks</div><div class="ch-tag" onclick="ctag(this)" data-id="meetings">Disengaged in meetings</div></div></div>
+        <div><div class="cat-label">Communication &amp; social</div><div class="tag-row"><div class="ch-tag" onclick="ctag(this)" data-id="written">Struggles with written work</div><div class="ch-tag" onclick="ctag(this)" data-id="verbal">Strong verbally, weak in writing</div><div class="ch-tag" onclick="ctag(this)" data-id="instructions">Misses or forgets instructions</div><div class="ch-tag" onclick="ctag(this)" data-id="social">Avoids social situations</div><div class="ch-tag" onclick="ctag(this)" data-id="blunt">Communicates very directly</div><div class="ch-tag" onclick="ctag(this)" data-id="interrupts">Interrupts frequently</div><div class="ch-tag" onclick="ctag(this)" data-id="misreads">Misreads social cues</div></div></div>
+        <div><div class="cat-label">Numbers &amp; information processing</div><div class="tag-row"><div class="ch-tag" onclick="ctag(this)" data-id="numbers">Struggles with numbers or data</div><div class="ch-tag" onclick="ctag(this)" data-id="reading">Slow reading or avoids reading</div><div class="ch-tag" onclick="ctag(this)" data-id="spelling">Frequent spelling errors</div><div class="ch-tag" onclick="ctag(this)" data-id="sequences">Difficulty with sequences or steps</div><div class="ch-tag" onclick="ctag(this)" data-id="memory">Poor working memory</div><div class="ch-tag" onclick="ctag(this)" data-id="processing">Slow to process information</div></div></div>
+        <div><div class="cat-label">Sensory &amp; physical environment</div><div class="tag-row"><div class="ch-tag" onclick="ctag(this)" data-id="noise">Affected by noise or open plan</div><div class="ch-tag" onclick="ctag(this)" data-id="light">Sensitive to light or screens</div><div class="ch-tag" onclick="ctag(this)" data-id="smell">Reacts strongly to smells</div><div class="ch-tag" onclick="ctag(this)" data-id="touch">Sensitive to touch or clothing</div><div class="ch-tag" onclick="ctag(this)" data-id="movement">Moves around a lot or fidgets</div><div class="ch-tag" onclick="ctag(this)" data-id="clumsy">Coordination or clumsiness difficulties</div></div></div>
+        <div><div class="cat-label">Energy, mood &amp; regulation</div><div class="tag-row"><div class="ch-tag" onclick="ctag(this)" data-id="fatigue">Excessive fatigue</div><div class="ch-tag" onclick="ctag(this)" data-id="emotional">Strong emotional reactions</div><div class="ch-tag" onclick="ctag(this)" data-id="anxiety">Appears anxious or overwhelmed</div><div class="ch-tag" onclick="ctag(this)" data-id="change">Struggles with change</div><div class="ch-tag" onclick="ctag(this)" data-id="tics">Involuntary movements or sounds</div><div class="ch-tag" onclick="ctag(this)" data-id="routine">Relies heavily on routine</div></div></div>
+      </div>
+      <div class="sel-count" id="c-sel-count">No challenges selected yet</div>
+    </div>
+    <div class="step-block">
+      <div class="step-header"><div class="step-num">3</div><div><div class="step-title">How long has this been noticeable?</div></div></div>
+      <div class="dur-grid">
+        <div class="dur-card" onclick="cpick('dur','recent')" id="cdur-recent"><span>Just recently &mdash; a few weeks</span></div>
+        <div class="dur-card" onclick="cpick('dur','months')" id="cdur-months"><span>A few months</span></div>
+        <div class="dur-card" onclick="cpick('dur','long')" id="cdur-long"><span>A long time &mdash; possibly always</span></div>
+      </div>
+    </div>
+    <div class="tip-bar"><i class="ti ti-info-circle"></i><p>You don't need to select everything perfectly. The tool will surface the most relevant possibilities based on the patterns you identify.</p></div>
+    <button class="gen-btn" id="c-gen-btn" onclick="cGenerate()" disabled>See what might be happening &#8594;</button>
+    <div class="results" id="c-results">
+      <div class="divider"></div>
+      <div class="results-hero"><h3 id="c-rtitle"></h3><p id="c-rintro"></p><div class="ctx-chips" id="c-rchips"></div></div>
+      <div class="notice-bar"><i class="ti ti-alert-circle"></i><p><strong>This is not a diagnosis tool.</strong> These suggestions are based on observable patterns. Only a qualified professional can assess or diagnose. Your role is to understand, support and create the right conditions for this person to thrive.</p></div>
+      <div class="section-label">Conditions that may be relevant</div>
+      <div id="c-matches"></div>
+      <div class="section-label">What you can do right now</div>
+      <div id="c-actions"></div>
+      <div class="cta-row">
+        <button class="cta-primary" onclick="goTo('page-condition')">Explore condition profiles &#8599;</button>
+        <button class="cta-secondary" onclick="goTo('page-conversation')">Prepare for a conversation &#8599;</button>
+      </div>
+      <button class="reset-btn" onclick="cReset()">&#8592; Start again</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONDITION SELECTOR -->
+<div class="page" id="page-condition">
+  <div class="content-wrap">
+    <div class="pathway-intro">
+      <div class="pathway-eyebrow">Pathway 2 &middot; Condition profiles</div>
+      <h2>I want to understand a condition</h2>
+      <p>Select a condition to open its full profile — written for managers, not clinicians. Each profile covers what the condition is, how it shows up at work, common strengths, reasonable adjustments, conversation preparation and where to go next.</p>
+    </div>
+    <div class="condition-grid">
+      <a href="adhd.html" class="cond-btn"><div class="cb-icon">&#129504;</div><div class="cb-name">ADHD</div></a>
+      <a href="autism.html" class="cond-btn"><div class="cb-icon">&#129513;</div><div class="cb-name">Autism</div></a>
+      <a href="dyslexia.html" class="cond-btn"><div class="cb-icon">&#128221;</div><div class="cb-name">Dyslexia</div></a>
+      <a href="dyspraxia.html" class="cond-btn"><div class="cb-icon">&#129517;</div><div class="cb-name">Dyspraxia (DCD)</div></a>
+      <a href="dyscalculia.html" class="cond-btn"><div class="cb-icon">&#128290;</div><div class="cb-name">Dyscalculia</div></a>
+      <a href="tourettes.html" class="cond-btn"><div class="cb-icon">&#9889;</div><div class="cb-name">Tourette's Syndrome</div></a>
+      <a href="sensory.html" class="cond-btn"><div class="cb-icon">&#127754;</div><div class="cb-name">Sensory Processing</div></a>
+    </div>
+    <div class="tip-bar" style="margin-top:8px"><i class="ti ti-info-circle"></i><p>Not sure which condition applies? Use <strong>Pathway 1 — I'm noticing something</strong> to identify what might be relevant based on what you're observing.</p></div>
+  </div>
+</div>
+
+<!-- CONVERSATION SUPPORT -->
+<div class="page" id="page-conversation">
+  <div class="content-wrap">
+    <div class="pathway-intro">
+      <div class="pathway-eyebrow">Pathway 3 &middot; Conversation support</div>
+      <h2>I need to have a conversation</h2>
+      <p>Answer a few questions about your situation and get a practical, tailored guide — including scripts, what to listen for, what to avoid and what to do afterwards.</p>
+    </div>
+    <div class="step-block">
+      <div class="step-header"><div class="step-num">1</div><div><div class="step-title">What kind of conversation is this?</div></div></div>
+      <div class="opt-grid-2">
+        <div class="opt-card" onclick="vpick('type','first')" id="vtype-first"><div class="oc-icon">&#128682;</div><div class="oc-title">Opening the conversation</div><div class="oc-desc">Raising something for the first time</div></div>
+        <div class="opt-card" onclick="vpick('type','followup')" id="vtype-followup"><div class="oc-icon">&#128260;</div><div class="oc-title">Following up</div><div class="oc-desc">Building on what was discussed before</div></div>
+        <div class="opt-card" onclick="vpick('type','adjustments')" id="vtype-adjustments"><div class="oc-icon">&#128296;</div><div class="oc-title">Agreeing adjustments</div><div class="oc-desc">What specific support would help</div></div>
+        <div class="opt-card" onclick="vpick('type','performance')" id="vtype-performance"><div class="oc-icon">&#128202;</div><div class="oc-title">Performance and support</div><div class="oc-desc">Addressing performance sensitively</div></div>
+        <div class="opt-card" onclick="vpick('type','disclosure')" id="vtype-disclosure"><div class="oc-icon">&#128172;</div><div class="oc-title">Responding to a disclosure</div><div class="oc-desc">Someone has just told me something</div></div>
+        <div class="opt-card" onclick="vpick('type','checkin')" id="vtype-checkin"><div class="oc-icon">&#9989;</div><div class="oc-title">Regular check-in</div><div class="oc-desc">Making sure ongoing support is working</div></div>
+      </div>
+    </div>
+    <div class="step-block">
+      <div class="step-header"><div class="step-num">2</div><div><div class="step-title">Is a specific condition involved?</div></div></div>
+      <div class="cond-selector">
+        <div class="cond-card" onclick="vpick('cond','adhd')" id="vcond-adhd"><span class="ci">&#129504;</span><span class="cn">ADHD</span></div>
+        <div class="cond-card" onclick="vpick('cond','autism')" id="vcond-autism"><span class="ci">&#129513;</span><span class="cn">Autism</span></div>
+        <div class="cond-card" onclick="vpick('cond','dyslexia')" id="vcond-dyslexia"><span class="ci">&#128221;</span><span class="cn">Dyslexia</span></div>
+        <div class="cond-card" onclick="vpick('cond','dyspraxia')" id="vcond-dyspraxia"><span class="ci">&#129517;</span><span class="cn">Dyspraxia</span></div>
+        <div class="cond-card" onclick="vpick('cond','dyscalculia')" id="vcond-dyscalculia"><span class="ci">&#128290;</span><span class="cn">Dyscalculia</span></div>
+        <div class="cond-card" onclick="vpick('cond','tourettes')" id="vcond-tourettes"><span class="ci">&#9889;</span><span class="cn">Tourette's</span></div>
+        <div class="cond-card" onclick="vpick('cond','sensory')" id="vcond-sensory"><span class="ci">&#127754;</span><span class="cn">Sensory Processing</span></div>
+        <div class="cond-card" onclick="vpick('cond','multiple')" id="vcond-multiple"><span class="ci">&#128256;</span><span class="cn">Multiple conditions</span></div>
+      </div>
+      <button class="not-sure-btn" id="vcond-none" onclick="vpick('cond','none')">Not sure / No diagnosis &mdash; keep guidance general</button>
+    </div>
+    <div class="step-block">
+      <div class="step-header"><div class="step-num">3</div><div><div class="step-title">What's your main concern going in?</div><div class="step-sub">Select all that apply.</div></div></div>
+      <div class="concern-row">
+        <div class="concern-tag" onclick="vtoggleConcern(this)" data-id="saying-wrong">Saying the wrong thing</div>
+        <div class="concern-tag" onclick="vtoggleConcern(this)" data-id="upsetting">Upsetting or overwhelming them</div>
+        <div class="concern-tag" onclick="vtoggleConcern(this)" data-id="reaction">Not knowing how to respond if they get upset</div>
+        <div class="concern-tag" onclick="vtoggleConcern(this)" data-id="legal">Getting the legal or HR side wrong</div>
+        <div class="concern-tag" onclick="vtoggleConcern(this)" data-id="performance">Mixing performance and support</div>
+        <div class="concern-tag" onclick="vtoggleConcern(this)" data-id="denial">They might deny there's an issue</div>
+        <div class="concern-tag" onclick="vtoggleConcern(this)" data-id="disclosure">They might disclose something I'm not prepared for</div>
+        <div class="concern-tag" onclick="vtoggleConcern(this)" data-id="nochange">The conversation goes well but nothing changes</div>
+      </div>
+    </div>
+    <div class="step-block">
+      <div class="step-header"><div class="step-num">4</div><div><div class="step-title">What tone does this person need?</div></div></div>
+      <div class="opt-grid-2">
+        <div class="opt-card" onclick="vpick('tone','warm')" id="vtone-warm"><div class="oc-icon">&#9728;</div><div class="oc-title">Warm and informal</div><div class="oc-desc">A chat rather than a meeting</div></div>
+        <div class="opt-card" onclick="vpick('tone','structured')" id="vtone-structured"><div class="oc-icon">&#128203;</div><div class="oc-title">Clear and structured</div><div class="oc-desc">They'll want to know the agenda</div></div>
+        <div class="opt-card" onclick="vpick('tone','gentle')" id="vtone-gentle"><div class="oc-icon">&#127807;</div><div class="oc-title">Carefully gentle</div><div class="oc-desc">They seem anxious — this needs to feel very safe</div></div>
+        <div class="opt-card" onclick="vpick('tone','practical')" id="vtone-practical"><div class="oc-icon">&#127919;</div><div class="oc-title">Straightforward and practical</div><div class="oc-desc">They're fairly open and appreciate directness</div></div>
+      </div>
+    </div>
+    <button class="gen-btn" id="v-gen-btn" onclick="vGenerate()" disabled>Build my conversation guide &#8594;</button>
+    <div class="results" id="v-results">
+      <div class="divider"></div>
+      <div class="guide-hero"><h3 id="v-rtitle"></h3><p id="v-rintro"></p><div class="ctx-chips" id="v-rchips"></div></div>
+      <div class="section-block"><div class="sh-row"><div class="sh-icon">&#128203;</div><div class="sh-title">Before you go in</div></div><div id="v-before"></div></div>
+      <div class="section-block"><div class="sh-row"><div class="sh-icon">&#128172;</div><div class="sh-title">How to open</div></div><div id="v-scripts"></div></div>
+      <div class="section-block" id="v-concerns-block" style="display:none"><div class="sh-row"><div class="sh-icon">&#128737;</div><div class="sh-title">Handling your specific concerns</div></div><div id="v-concerns"></div></div>
+      <div class="section-block"><div class="sh-row"><div class="sh-icon">&#9888;</div><div class="sh-title">What to avoid saying</div></div><div id="v-avoid"></div></div>
+      <div class="section-block"><div class="sh-row"><div class="sh-icon">&#128066;</div><div class="sh-title">What to listen for</div></div><div id="v-listen"></div></div>
+      <div class="section-block"><div class="sh-row"><div class="sh-icon">&#128281;</div><div class="sh-title">How to close</div></div><div class="close-card" id="v-close"></div></div>
+      <div class="section-block"><div class="sh-row"><div class="sh-icon">&#9989;</div><div class="sh-title">After the conversation</div></div><div id="v-after"></div></div>
+      <div class="cta-row">
+        <button class="cta-primary" onclick="goTo('page-condition')">View condition profiles &#8599;</button>
+        <button class="cta-secondary" onclick="goTo('page-foundation')">Foundation learning &#8599;</button>
+      </div>
+      <button class="reset-btn" onclick="vReset()">&#8592; Start again</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOUNDATION LEARNING -->
+<div class="page" id="page-foundation">
+  <div class="content-wrap">
+    <div class="pathway-intro">
+      <div class="pathway-eyebrow">Pathway 4 &middot; Foundation learning</div>
+      <h2>Help me understand neurodiversity</h2>
+      <p>Build your understanding from the ground up — what neurodiversity actually means, why it matters at work, what your responsibilities are, and how to lead differently. Work through the modules at your own pace.</p>
+    </div>
+    <div class="progress-wrap">
+      <div class="prog-label"><span>Your progress</span><strong id="f-prog-text">0 of 6 modules complete</strong></div>
+      <div class="prog-track"><div class="prog-fill" id="f-prog-fill" style="width:0%"></div></div>
+    </div>
+    <div id="f-modules"></div>
+    <div class="completed-msg" id="f-complete"><div class="cm-icon">&#127881;</div><h3>Foundation complete</h3><p>You've worked through all six modules. You now have a solid grounding in what neurodiversity means and what inclusive leadership looks like in practice.</p></div>
+    <div class="ns-block">
+      <div class="ns-header"><h3>Where to go next</h3><p>You've built your foundation. Now put it into practice.</p></div>
+      <div class="ns-section">
+        <div class="ns-label">Continue in this tool</div>
+        <div class="ns-row">
+          <button class="ns-btn ns-purple" onclick="goTo('page-condition')">Explore condition profiles &#8599;</button>
+          <button class="ns-btn ns-outline" onclick="goTo('page-challenge')">I'm noticing something &#8599;</button>
+        </div>
+        <div class="ns-row" style="margin-top:8px">
+          <button class="ns-btn ns-outline" style="grid-column:1/-1" onclick="goTo('page-conversation')">Prepare for a conversation &#8599;</button>
+        </div>
+      </div>
+      <div class="is-section">
+        <div class="is-header">
+          <div class="is-logo-w">&#129504;</div>
+          <div><div class="is-title">Further Support from Inclusivity Solutions</div><div class="is-sub">Created by Kate Brennan &middot; Learning &amp; Development Specialist</div></div>
+        </div>
+        <p class="is-intro">Ready to go further? Kate delivers practical, human-centred training for organisations that want to build genuinely inclusive cultures &mdash; grounded in lived experience and 30+ years of workplace expertise.</p>
+        <div class="is-offerings">
+          <div class="is-offering"><div class="is-oi io-orange">&#127891;</div><div style="flex:1"><div class="is-ot">Managing Neurodiversity &mdash; Training Workshop</div><div class="is-od">Practical sessions for managers and team leaders. Half-day or full-day, in-person or online.</div></div><div class="is-arr">&#8594;</div></div>
+          <div class="is-offering"><div class="is-oi io-pink">&#129309;</div><div style="flex:1"><div class="is-ot">Team Support Sessions</div><div class="is-od">Facilitated sessions for whole teams &mdash; building awareness, reducing stigma and creating shared language.</div></div><div class="is-arr">&#8594;</div></div>
+          <div class="is-offering"><div class="is-oi io-teal">&#10024;</div><div style="flex:1"><div class="is-ot">Keynote Speaking &amp; Consulting</div><div class="is-od">Engaging talks and consulting support for organisations building inclusive culture at a deeper level.</div></div><div class="is-arr">&#8594;</div></div>
+        </div>
+        <div class="is-cta"><button class="is-cta-btn">Find out more about working with Inclusivity Solutions &#8594;</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+// NAVIGATION
+function goTo(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(p).classList.add('active');document.getElementById('back-btn').classList.toggle('visible',p!=='page-home');window.scrollTo(0,0);}
+function goHome(){goTo('page-home');}
+
+// CHALLENGE PATHWAY
+const cS={ctx:null,tags:new Set(),dur:null};
+const cMap={
+  adhd:{name:'ADHD',icon:'&#129504;',color:'#EEEDFE',tags:['deadlines','time','priority','planning','late','disorganised','focus','distracted','hyperfocus','inconsistent','starting','meetings','instructions','interrupts','emotional','fatigue','change']},
+  autism:{name:'Autism',icon:'&#129513;',color:'#E1F5EE',tags:['social','blunt','misreads','routine','change','instructions','noise','light','smell','touch','processing','fatigue','anxiety']},
+  dyslexia:{name:'Dyslexia',icon:'&#128221;',color:'#FAEEDA',tags:['written','verbal','reading','spelling','memory','processing','instructions','sequences']},
+  dyspraxia:{name:'Dyspraxia',icon:'&#129517;',color:'#E1F5EE',tags:['disorganised','clumsy','time','planning','sequences','memory','fatigue','movement','late','priority']},
+  dyscalculia:{name:'Dyscalculia',icon:'&#128290;',color:'#FAEEDA',tags:['numbers','sequences','memory','time','processing']},
+  tourettes:{name:"Tourette's",icon:'&#9889;',color:'#EEEDFE',tags:['tics','anxiety','fatigue','social','focus','emotional']},
+  sensory:{name:'Sensory Processing',icon:'&#127754;',color:'#E1F5EE',tags:['noise','light','smell','touch','movement','fatigue','anxiety','social','focus','distracted']}
+};
+const cReasons={
+  adhd:"The patterns you've selected — particularly around focus, time management and inconsistency — are strongly associated with ADHD, which affects executive function: the brain's ability to plan, prioritise and sustain tasks.",
+  autism:"Patterns around social communication, reliance on routine, difficulty with change and sensory sensitivities are commonly associated with autism — differences in how the brain processes social information and sensory input.",
+  dyslexia:"Written work, reading, spelling and information processing patterns are strongly associated with dyslexia — a specific learning difference affecting how the brain processes written and spoken language.",
+  dyspraxia:"Coordination, organisation, planning and fatigue patterns are commonly associated with dyspraxia — a neurodevelopmental condition affecting motor coordination and cognitive sequencing.",
+  dyscalculia:"Numerical and sequencing patterns are associated with dyscalculia — a specific learning difference affecting how the brain processes numerical information.",
+  tourettes:"Involuntary movements or sounds, combined with anxiety and fatigue patterns, are associated with Tourette's Syndrome.",
+  sensory:"Sensory patterns around noise, light, smell and touch are associated with sensory processing differences — affecting how the brain filters and responds to environmental input."
+};
+const cLinks={adhd:'adhd.html',autism:'autism.html',dyslexia:'dyslexia.html',dyspraxia:'dyspraxia.html',dyscalculia:'dyscalculia.html',tourettes:'tourettes.html',sensory:'sensory.html'};
+const uActions=[
+  {e:'now',t:'Have a supportive conversation',d:"Before assuming anything, open a conversation. Ask how they're finding their role and whether there's anything that would help."},
+  {e:'now',t:'Follow verbal with written',d:"Make it standard to follow up meetings and instructions with a brief written summary — this helps everyone and removes pressure on recall."},
+  {e:'soon',t:'Consider an occupational health referral',d:"If patterns persist, an OH referral can provide specialist guidance and a workplace needs assessment without requiring a diagnosis."},
+  {e:'refer',t:'Explore Access to Work',d:"Access to Work funds practical support — coaching, equipment, assessments. The employee applies but you can facilitate."}
+];
+const tActions={
+  focus:{e:'now',t:'Reduce cognitive interruptions',d:"Minimise unnecessary meetings, provide written briefings in advance and allow focused work time."},
+  written:{e:'now',t:'Accept alternative formats',d:"Allow verbal updates or voice notes as alternatives to formal written reports where the role allows."},
+  numbers:{e:'now',t:'Provide visual data formats',d:"Share numerical information in charts or graphs with written context rather than raw tables."},
+  noise:{e:'now',t:'Allow noise management tools',d:"Explicitly permit noise-cancelling headphones and offer access to quieter working spaces."},
+  tics:{e:'now',t:'Respond with calm neutrality',d:"If you observe involuntary movements or sounds, do not comment or draw attention. Calm unreactivity is the most important response."},
+  change:{e:'now',t:'Give advance notice of changes',d:"Provide as much notice as possible before any change to plans, processes or routines."}
+};
+function cpick(g,v){
+  cS[g]=v;
+  const m={ctx:['new','ongoing','performance','wellbeing'],dur:['recent','months','long']};
+  m[g].forEach(x=>document.getElementById('c'+g+'-'+x)?.classList.toggle('selected',x===v));
+  cuBtn();
+}
+function ctag(el){
+  const id=el.dataset.id;
+  if(cS.tags.has(id)){cS.tags.delete(id);el.classList.remove('selected');}
+  else{cS.tags.add(id);el.classList.add('selected');}
+  const n=cS.tags.size;
+  document.getElementById('c-sel-count').innerHTML=n===0?'No challenges selected yet':'<span>'+n+'</span> challenge'+(n===1?'':'s')+' selected';
+  cuBtn();
+}
+function cuBtn(){document.getElementById('c-gen-btn').disabled=!(cS.ctx&&cS.tags.size>0&&cS.dur);}
+function cGenerate(){
+  const sc={};Object.keys(cMap).forEach(k=>{let s=0;cS.tags.forEach(t=>{if(cMap[k].tags.includes(t))s++;});sc[k]=s;});
+  const sorted=Object.entries(sc).filter(([,s])=>s>0).sort(([,a],[,b])=>b-a).slice(0,4);
+  document.getElementById('c-rtitle').textContent=sorted.length>0?"Based on what you've described...":'Let us look at this differently';
+  document.getElementById('c-rintro').textContent=sorted.length>0?'The challenges you have selected most closely align with '+(sorted.length>1?'a few conditions worth exploring':cMap[sorted[0][0]].name)+'. These are possibilities to explore, not conclusions.':'The patterns you have selected do not map strongly to a specific condition — but the actions below are good practice regardless.';
+  document.getElementById('c-rchips').innerHTML=[cS.ctx,cS.dur].filter(Boolean).map(c=>'<span class="ctx-chip">'+c+'</span>').join('');
+  const mEl=document.getElementById('c-matches');
+  if(sorted.length>0){
+    const mx=sorted[0][1];
+    mEl.innerHTML=sorted.map(([k,s])=>{
+      const c=cMap[k];const pct=Math.round((s/Math.max(mx,1))*100);
+      const sl=pct>=80?'Strong match':pct>=50?'Possible match':'Worth considering';
+      const mt=c.tags.filter(t=>cS.tags.has(t));
+      return '<div class="match-card"><div class="match-inner"><div class="match-icon" style="background:'+c.color+'">'+c.icon+'</div><div class="match-body"><div class="match-name">'+c.name+'</div><div class="match-why">'+cReasons[k]+'</div><div class="match-tags">'+mt.map(t=>'<span class="match-tag">'+t+'</span>').join('')+'</div><div class="match-strength"><div class="strength-bar"><div class="strength-fill" style="width:'+pct+'%"></div></div><span class="strength-label">'+sl+'</span></div><a href="'+(cLinks[k]||'#')+'" class="view-btn">View full profile &rarr;</a></div></div></div>';
+    }).join('');
+  }else{mEl.innerHTML='';}
+  const sp=Object.keys(tActions).filter(t=>cS.tags.has(t)).map(t=>tActions[t]);
+  const all=[...sp.slice(0,3),...uActions.slice(0,4-Math.min(sp.length,3))];
+  const eL={now:'Do now',soon:'Plan soon',refer:'Refer on'};const eC={now:'ae-now',soon:'ae-soon',refer:'ae-refer'};
+  document.getElementById('c-actions').innerHTML=all.map(a=>'<div class="action-item"><span class="ae '+eC[a.e]+'">'+eL[a.e]+'</span><div class="action-text"><strong>'+a.t+'</strong><span>'+a.d+'</span></div></div>').join('');
+  document.getElementById('c-results').classList.add('visible');
+  document.getElementById('c-results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function cReset(){
+  cS.ctx=null;cS.tags.clear();cS.dur=null;
+  ['new','ongoing','performance','wellbeing'].forEach(v=>document.getElementById('cctx-'+v)?.classList.remove('selected'));
+  ['recent','months','long'].forEach(v=>document.getElementById('cdur-'+v)?.classList.remove('selected'));
+  document.querySelectorAll('#page-challenge .ch-tag').forEach(e=>e.classList.remove('selected'));
+  document.getElementById('c-sel-count').textContent='No challenges selected yet';
+  document.getElementById('c-results').classList.remove('visible');
+  document.getElementById('c-gen-btn').disabled=true;
+  window.scrollTo(0,0);
+}
+
+// CONVERSATION PATHWAY
+const vS={type:null,cond:null,tone:null,concerns:new Set()};
+const vTL={first:'Opening the conversation',followup:'Following up',adjustments:'Agreeing adjustments',performance:'Performance & support',disclosure:'Responding to a disclosure',checkin:'Regular check-in'};
+const vCL={adhd:'ADHD',autism:'Autism',dyslexia:'Dyslexia',dyspraxia:'Dyspraxia',dyscalculia:'Dyscalculia',tourettes:"Tourette's Syndrome",sensory:'Sensory Processing',multiple:'Multiple conditions',none:'General (no diagnosis)'};
+const vTnL={warm:'Warm & informal',structured:'Clear & structured',gentle:'Carefully gentle',practical:'Practical & direct'};
+const vBefore={
+  first:["Choose a private, quiet setting — not a hot-desk area or glass-walled room others can see into.","Block out at least 30 minutes and protect it. Being interrupted sends the wrong signal.","Let them know in advance what the conversation is for. A brief, warm message reduces anticipatory anxiety significantly.","Decide in advance what you are and aren't going to say. Opening a door is different from walking through it.","Remind yourself: your job is to listen, not to diagnose or fix."],
+  followup:["Review what you said you'd do last time and confirm whether you've done it before you walk in.","Send a brief note in advance so they know this is a follow-up, not a new concern.","Come with specific questions — it shows you've been paying attention."],
+  adjustments:["Come with ideas, not decisions — the individual is the expert on what helps them.","Know what you can agree to immediately and what needs sign-off.","Be clear that nothing is agreed until they've had the chance to reflect and come back to you."],
+  performance:["Be clear in your own mind: is this a performance conversation, a support conversation, or both? Conflating them is the most common mistake.","Ensure you have HR guidance before this conversation if formal processes may follow.","Lead with support, not process."],
+  disclosure:["Take a breath. Your first response matters enormously.","You don't need to have answers immediately — 'thank you for telling me' is a perfect first response.","Don't make it about your feelings or your surprise. Centre their experience."],
+  checkin:["Keep it genuinely brief — this isn't a performance review.","If adjustments were agreed, review them before the conversation so you can ask specifically about them.","Have no agenda other than listening."]
+};
+const vScripts={
+  first:{warm:["I just wanted to find a moment to check in — not because anything's wrong, but because I want to make sure you've got what you need to do your best work. Is there anything about how we work together that ever feels harder than it should?"],structured:["I'd like to have a conversation with you about how you're finding the role. I'll send you a couple of questions in advance so you can think about them — nothing heavy, just: how are things, and is there anything I could do differently?"],gentle:["I want to be upfront before I say anything else — this isn't a performance conversation and nothing negative comes from it. I just wanted to check in and ask whether there's anything about how we work that I could make easier for you."],practical:["I'd like to ask you directly — is there anything about the role or how we work together that creates unnecessary difficulty for you? I'd rather ask than assume."]},
+  followup:{warm:["I wanted to come back to our last conversation and see how things are feeling. Has anything shifted, or are there things we talked about that haven't happened yet on my end?"],structured:["I'm following up on what we discussed. I'd like to go through what we agreed, check what's working and what isn't, and agree next steps. I'll send a summary afterwards."],gentle:["I said I'd come back to you and I am — because I meant it. Just wanted to see how things are feeling since we last spoke. No agenda, just checking in properly."],practical:["Here's where I've got to with what we discussed. What's changed for you, and what still needs work?"]},
+  adjustments:{warm:["I'd like us to think together about what would actually make a difference day to day — not what sounds good on paper, but what would genuinely help. I've got some ideas but I want to hear from you first."],structured:["I'd like us to come out of this conversation with two or three concrete things agreed. I'll share some options in advance so you can think about what resonates."],gentle:["I want us to land on things that really help — not things that just look right. Can you tell me what the hardest parts of your working day actually are, and we'll work from there?"],practical:["Let's be specific. What are the things that create the most difficulty, and what would genuinely help?"]},
+  performance:{warm:["I want to talk about some of the challenges I've been noticing, and I want to do it in a way that's genuinely helpful. I'm interested in understanding what's behind things, not just naming them."],structured:["I'd like to talk through some specific things I've been observing — and I want to be clear that the purpose is to understand and support, not to create a formal process."],gentle:["Before I say anything else, I want to be clear that this isn't a disciplinary conversation. I've noticed some things and I want to understand them properly. I'm on your side."],practical:["I want to be straight with you — I've noticed [specific thing] and I think we need to talk about it. But I also want to understand what's behind it before we think about next steps."]},
+  disclosure:{warm:["Thank you for telling me — that really does take courage and I don't take it lightly. What would be most helpful for me to understand or do right now?"],structured:["Thank you for sharing that. I want to take a moment to think about how to best support you. Can we set up some time to talk properly about what would help?"],gentle:["Thank you. I can hear that it wasn't easy to say that, and I want you to know it's completely safe with me. Nothing changes between us because of what you've shared."],practical:["I appreciate you telling me. I want to make sure I do this properly — what do you need from me right now, and what would help most going forward?"]},
+  checkin:{warm:["Just checking in — no agenda. How are things feeling?"],structured:["Quick check-in on how things are working in practice. What's landing well and what needs adjusting?"],gentle:["I wanted to see how you're doing — properly, not just in passing. Is there anything that would help right now that we haven't sorted yet?"],practical:["What's working, what isn't? I'd rather hear it straight so we can act on it."]}
+};
+const vAvoid={
+  first:[""Have you ever been tested for..." — this is not your role. Open a door, don't push the person through it.",""I've noticed you seem to struggle with..." — framing around deficit before trust is established closes conversations down.",""Everyone finds it hard sometimes" — this minimises a specific experience.",""I'm here if you need anything" without a concrete follow-up — reassurance without action."],
+  followup:[""So has everything sorted itself out?" — implies you're hoping the answer is yes.","Starting with performance concerns before acknowledging the person as a human being first."],
+  adjustments:["Presenting adjustments as favours rather than entitlements — they are reasonable adjustments, not special treatment.",""We'll see what we can do" without a specific next step — vagueness is experienced as dismissal.","Agreeing to things you can't deliver."],
+  performance:["Mixing formal performance language with support language without being explicit about which you're in.",""Other people manage to..." — this comparison is never helpful.","Attributing performance issues to attitude before understanding the underlying cause."],
+  disclosure:[""I had no idea!" — however genuine, this makes the person feel they need to manage your reaction.",""Have you tried..." immediately after disclosure — advice before acknowledgement shuts people down.","Any response that makes them feel they've created a problem by telling you."],
+  checkin:[""You seem much better" — this assumes you know their internal experience.","Rushing to close because nothing seems wrong — sometimes the value is simply in showing up."]
+};
+const vListen=["Relief — when someone has been holding something in, finally being asked can produce visible emotional release. This is a good sign.","Minimising — 'it's fine, I manage' often means the opposite. Ask: 'What does managing it actually look like for you?'","Specific, detailed descriptions of what helps — these are your adjustment ideas. Write them down.","Hesitation around particular tasks — what they avoid is often as telling as what they describe.","Fatigue — many neurodivergent people work significantly harder than appears necessary.","Shame or self-blame — particularly 'I know I should be able to...' These signal years of internalised judgement."];
+const vClose={warm:"End by leaving the door open: 'You don't have to have all the answers today — we can keep talking about this whenever it feels right. And if something comes up before then, just tell me.'",structured:"Close with a clear, specific next step: 'I'll send you a summary of what we've discussed and what I'm going to do. We'll check in again in [specific timeframe].'",gentle:"Close with explicit reassurance: 'Nothing changes without your agreement. I'm just here to help — and I'm glad we talked. Take whatever time you need with any of this.'",practical:"Close with action: 'Let's agree one thing to try this week. I'll follow up by [day] with what I've been able to sort.'"};
+const vAfter=["Send a brief written summary of what was discussed, what you've committed to and any agreed next steps.","Act on what you said you'd do — and by when you said you would.","Involve HR if the conversation surfaced anything that needs formal documentation.","Schedule the next conversation before it becomes open-ended."];
+const vConcernR={"saying-wrong":"Say less and ask more. Questions are safer than statements. 'How does that affect your working day?' is always better than 'I think you might find X difficult.'","upsetting":"You can't fully control how someone receives a conversation — but you can control your tone and pacing. If they become upset, slow down, acknowledge the emotion, and don't rush to resolve it.","reaction":"If someone becomes distressed: slow down, acknowledge ('I can see this is difficult — take your time'), don't try to fix it immediately, and resist the urge to fill silence.","legal":"The key principle: under the Equality Act 2010, you have a duty to consider reasonable adjustments. Involve HR early and document your approach.","performance":"Separate the conversation clearly: 'here's what I need to talk about in terms of work output' and 'here's what I want to understand about what would help.' Never use support language as softening for a performance message.","denial":"If someone denies there's a difficulty: acknowledge it, respect it, and leave the door open. 'That's completely fine — I just wanted to check in.'","disclosure":"Slow down, thank them, acknowledge how much it takes — and don't try to respond with immediate answers. 'Thank you for telling me. Can I take a little time to think about how I can best support you?'","nochange":"End with specific, named, time-bound commitments from you. 'I will do X by Y' is more powerful than 'we'll think about it.' And then do X by Y."};
+function vpick(g,v){
+  vS[g]=v;
+  const m={type:['first','followup','adjustments','performance','disclosure','checkin'],cond:['adhd','autism','dyslexia','dyspraxia','dyscalculia','tourettes','sensory','multiple','none'],tone:['warm','structured','gentle','practical']};
+  m[g].forEach(x=>document.getElementById('v'+g+'-'+x)?.classList.toggle('selected',x===v));
+  vuBtn();
+}
+function vtoggleConcern(el){const id=el.dataset.id;if(vS.concerns.has(id)){vS.concerns.delete(id);el.classList.remove('selected');}else{vS.concerns.add(id);el.classList.add('selected');}}
+function vuBtn(){document.getElementById('v-gen-btn').disabled=!(vS.type&&vS.cond&&vS.tone);}
+function vGenerate(){
+  const{type,cond,tone,concerns}=vS;
+  document.getElementById('v-rtitle').textContent='Your conversation guide \u2014 '+vTL[type];
+  document.getElementById('v-rintro').textContent='Tailored to a '+(vTL[type]||'').toLowerCase()+' conversation'+(cond!=='none'?' with someone who has '+(vCL[cond]||''):'')+(tone?', using a '+(vTnL[tone]||'').toLowerCase()+' approach.':'.');
+  document.getElementById('v-rchips').innerHTML=[vTL[type],vCL[cond],vTnL[tone]].filter(Boolean).map(c=>'<span class="ctx-chip">'+c+'</span>').join('');
+  const bi=vBefore[type]||vBefore.first;
+  document.getElementById('v-before').innerHTML=bi.map(i=>'<div class="before-item"><div class="before-check" onclick="vtck(this)"></div><span class="before-text">'+i+'</span></div>').join('');
+  const sc=(vScripts[type]||vScripts.first)[tone]||(vScripts[type]||vScripts.first).warm;
+  document.getElementById('v-scripts').innerHTML='<div class="script-label">Primary opening</div><div class="script-card"><p>&#8220;'+sc[0]+'&#8221;</p></div>';
+  if(concerns.size>0){
+    document.getElementById('v-concerns-block').style.display='block';
+    document.getElementById('v-concerns').innerHTML=Array.from(concerns).filter(c=>vConcernR[c]).map(c=>'<div class="listen-item"><span class="li-icon">&#128737;</span><span class="listen-text">'+vConcernR[c]+'</span></div>').join('');
+  }
+  const av=vAvoid[type]||vAvoid.first;
+  document.getElementById('v-avoid').innerHTML=av.map(i=>'<div class="avoid-item"><span class="avoid-x">&#10005;</span><span class="avoid-text">'+i+'</span></div>').join('');
+  document.getElementById('v-listen').innerHTML=vListen.map(i=>'<div class="listen-item"><span class="li-icon">&#128066;</span><span class="listen-text">'+i+'</span></div>').join('');
+  document.getElementById('v-close').innerHTML='<p>'+(vClose[tone]||vClose.warm)+'</p>';
+  document.getElementById('v-after').innerHTML=vAfter.map(i=>'<div class="after-item"><span class="after-icon">&#10003;</span><span class="after-text">'+i+'</span></div>').join('');
+  document.getElementById('v-results').classList.add('visible');
+  document.getElementById('v-results').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function vtck(el){el.classList.toggle('done');const t=el.nextElementSibling;if(t)t.classList.toggle('done');}
+function vReset(){
+  vS.type=null;vS.cond=null;vS.tone=null;vS.concerns.clear();
+  ['first','followup','adjustments','performance','disclosure','checkin'].forEach(v=>document.getElementById('vtype-'+v)?.classList.remove('selected'));
+  ['adhd','autism','dyslexia','dyspraxia','dyscalculia','tourettes','sensory','multiple','none'].forEach(v=>document.getElementById('vcond-'+v)?.classList.remove('selected'));
+  ['warm','structured','gentle','practical'].forEach(v=>document.getElementById('vtone-'+v)?.classList.remove('selected'));
+  document.querySelectorAll('.concern-tag').forEach(t=>t.classList.remove('selected'));
+  document.getElementById('v-results').classList.remove('visible');
+  document.getElementById('v-concerns-block').style.display='none';
+  document.getElementById('v-gen-btn').disabled=true;
+  window.scrollTo(0,0);
+}
+
+// FOUNDATION PATHWAY
+const fMods=[
+  {n:1,t:'What neurodiversity actually means',d:'Beyond the buzzword \u2014 a clear, honest introduction',time:'5 min',c:'<p>Neurodiversity refers to the natural variation in how human brains are wired. Just as people vary in height or temperament, they also vary in how they think, process information, communicate and experience the world.</p><p>Neurodivergent conditions include ADHD, autism, dyslexia, dyspraxia, dyscalculia, Tourette\u2019s Syndrome and sensory processing differences. Estimates suggest around 15\u201320% of the population is neurodivergent in some way.</p><div class="callout callout-teal"><p><strong>A useful way to think about it:</strong> a wheelchair user isn\u2019t disabled by their wheelchair \u2014 they\u2019re disabled by buildings without ramps. Many of the barriers neurodivergent people face are created by environments designed for one type of brain.</p></div><div class="kp-list"><div class="kp-item"><span class="kp-icon">&#128273;</span><span class="kp-text"><strong>Neurodivergent</strong> \u2014 someone whose brain works differently from what is considered typical.</span></div><div class="kp-item"><span class="kp-icon">&#128273;</span><span class="kp-text"><strong>A diagnosis is not required</strong> for someone to experience neurodivergent differences \u2014 or for you to offer support.</span></div></div><div class="reflect-box"><div class="reflect-label">Pause and reflect</div><div class="reflect-q">Are there people in your team whose working style doesn\u2019t quite fit the standard pattern \u2014 not because they\u2019re not capable, but because they work differently?</div></div>'},
+  {n:2,t:'Common myths and why they matter',d:'The misunderstandings that get in the way of good support',time:'5 min',c:'<p>These myths are deeply embedded in how many workplaces think about neurodiversity \u2014 and most of them are wrong in ways that cause real harm.</p><div class="myth-bust"><div class="myth-text">Neurodivergent people just need to try harder</div><div class="truth-text">Many neurodivergent people are already working significantly harder than their colleagues to achieve the same output. The difficulty isn\u2019t effort \u2014 it\u2019s that standard systems weren\u2019t built for how their brains work.</div></div><div class="myth-bust"><div class="myth-text">Everyone is a little bit ADHD / autistic / dyslexic</div><div class="truth-text">This well-meaning phrase minimises a genuine neurological difference. Neurodivergent conditions represent a different pattern of brain function with real, significant impacts on daily life.</div></div><div class="myth-bust"><div class="myth-text">If they were really struggling, they\u2019d have said something</div><div class="truth-text">Many neurodivergent people have learned \u2014 often through painful experience \u2014 that raising difficulties leads to being labelled as difficult or lazy. Silence is not evidence of coping.</div></div><div class="myth-bust"><div class="myth-text">You need a formal diagnosis to get support</div><div class="truth-text">Under ACAS guidance and the Equality Act 2010, support should be based on need, not paperwork.</div></div><div class="reflect-box"><div class="reflect-label">Pause and reflect</div><div class="reflect-q">Which of these myths have you encountered \u2014 in yourself, in your team, or in your organisation\u2019s culture?</div></div>'},
+  {n:3,t:'What masking is \u2014 and why it matters',d:'The hidden work that many neurodivergent people do every day',time:'5 min',c:'<p>Masking is the process by which neurodivergent people learn to suppress or hide neurodivergent behaviours in order to fit in. It explains why difficulties are often invisible until they become a crisis.</p><div class="callout callout-orange"><p><strong>The cost of masking is real.</strong> Research links prolonged masking to burnout, anxiety and depression. A team member who appears to be coping may be masking at significant personal cost.</p></div><div class="kp-list"><div class="kp-item"><span class="kp-icon">&#9888;</span><span class="kp-text"><strong>The absence of obvious difficulty is not evidence that no difficulty exists.</strong> Someone with sophisticated masking strategies will appear to be managing \u2014 until the demands become too great.</span></div><div class="kp-item"><span class="kp-icon">&#9888;</span><span class="kp-text"><strong>You can reduce the need to mask.</strong> A manager who responds to difference with calm curiosity gives people permission to unmask gradually \u2014 and that\u2019s when real support becomes possible.</span></div></div><div class="reflect-box"><div class="reflect-label">Pause and reflect</div><div class="reflect-q">Are there people in your team who seem to hold themselves together with visible effort? Who are rarely absent but seem frequently depleted? Masking may be part of what you\u2019re seeing.</div></div>'},
+  {n:4,t:'Your legal responsibilities',d:'The Equality Act 2010, reasonable adjustments and what ACAS says',time:'6 min',c:'<div class="law-row" style="padding-top:12px"><span class="law-icon">&#9878;</span><div class="law-text"><strong>The Equality Act 2010</strong><span>Neurodivergent conditions are likely to meet the definition of disability where they have a substantial, long-term adverse effect on day-to-day activities. Employers have a legal duty to make reasonable adjustments.</span></div></div><div class="law-row"><span class="law-icon">&#128296;</span><div class="law-text"><strong>Reasonable adjustments</strong><span>Any change to working arrangements, practices or the physical environment that removes or reduces a substantial disadvantage. Many of the most effective adjustments cost nothing at all.</span></div></div><div class="law-row"><span class="law-icon">&#128203;</span><div class="law-text"><strong>ACAS: no diagnosis required</strong><span>Support should not be conditional on a formal diagnosis. Employers should take a proactive, person-centred approach to identifying and addressing workplace barriers.</span></div></div><div class="law-row"><span class="law-icon">&#128222;</span><div class="law-text"><strong>Access to Work</strong><span>A government-funded scheme providing practical support \u2014 funding for coaching, specialist equipment, assistive technology and workplace assessments.</span></div></div><div class="callout callout-purple"><p><strong>The practical takeaway:</strong> You don\u2019t need to wait for a diagnosis or a formal process to begin exploring what would help. A supportive, curious conversation is itself a form of reasonable adjustment.</p></div><div class="reflect-box"><div class="reflect-label">Pause and reflect</div><div class="reflect-q">Are there people in your team who may be experiencing workplace barriers that no one has formally named yet?</div></div>'},
+  {n:5,t:'Strengths, not just struggles',d:'Why a strengths-based approach changes everything',time:'5 min',c:'<p>Neurodivergent people frequently bring distinctive, genuinely valuable strengths to their work \u2014 not as compensation for their difficulties, but as authentic features of how their brains work.</p><div class="strength-grid"><div class="strength-card"><div class="sc-label">Creative thinking</div><div class="sc-desc">Seeing problems from unexpected angles</div></div><div class="strength-card"><div class="sc-label">Deep focus</div><div class="sc-desc">Exceptional concentration on areas of interest</div></div><div class="strength-card"><div class="sc-label">Attention to detail</div><div class="sc-desc">Noticing errors and patterns others miss</div></div><div class="strength-card"><div class="sc-label">Resilience</div><div class="sc-desc">Extraordinary determination built through experience</div></div><div class="strength-card"><div class="sc-label">Empathy</div><div class="sc-desc">Deep sensitivity to others\u2019 experiences</div></div><div class="strength-card"><div class="sc-label">Honesty and directness</div><div class="sc-desc">Clarity and truth in environments full of ambiguity</div></div></div><div class="callout callout-teal" style="margin-top:12px"><p><strong>Ask yourself:</strong> What conditions would allow this person to do their best work? Rather than: how do I manage around their limitations?</p></div><div class="reflect-box"><div class="reflect-label">Pause and reflect</div><div class="reflect-q">Think about a team member who works differently. What do they bring that you might not have fully named or recognised?</div></div>'},
+  {n:6,t:'What inclusive leadership actually looks like',d:'Practical principles for everyday management, not just big moments',time:'6 min',c:'<p>Inclusive leadership is a collection of everyday choices \u2014 how you communicate, how you structure work, how you respond to difference and how you create conditions for everyone to contribute at their best.</p><div class="kp-list"><div class="kp-item"><span class="kp-icon">&#128483;</span><span class="kp-text"><strong>Communicate clearly and consistently.</strong> Say what you mean. Follow verbal briefings with a short written summary. Don\u2019t rely on unstated expectations.</span></div><div class="kp-item"><span class="kp-icon">&#128269;</span><span class="kp-text"><strong>Be curious before you\u2019re concerned.</strong> When someone\u2019s performance puzzles you, ask a question before drawing a conclusion.</span></div><div class="kp-item"><span class="kp-icon">&#9889;</span><span class="kp-text"><strong>Intervene early, not at crisis point.</strong> The earlier you have a supportive conversation, the more options you have.</span></div><div class="kp-item"><span class="kp-icon">&#127807;</span><span class="kp-text"><strong>Create psychological safety.</strong> A team where people feel safe to raise difficulties is a team where neurodivergent people can begin to unmask.</span></div><div class="kp-item"><span class="kp-icon">&#128260;</span><span class="kp-text"><strong>Review, don\u2019t set and forget.</strong> A regular, light-touch check-in is worth more than a plan nobody revisits.</span></div><div class="kp-item"><span class="kp-icon">&#128161;</span><span class="kp-text"><strong>Model the culture you want.</strong> Your team will treat each other the way they see you treat difference.</span></div></div><div class="callout callout-orange"><p><strong>The single most important thing:</strong> Inclusive workplaces are built through everyday conversations, small adjustments and leaders who choose curiosity and kindness. You don\u2019t have to get it perfect. You have to keep trying.</p></div><div class="reflect-box"><div class="reflect-label">Your commitment</div><div class="reflect-q">Based on what you\u2019ve read, what is one thing you\u2019ll do differently as a manager this week?</div></div>'}
+];
+let fDone=new Set();
+function fInit(){
+  const w=document.getElementById('f-modules');
+  w.innerHTML=fMods.map(m=>'<div class="module-card" id="fm'+m.n+'"><div class="mod-hdr" onclick="fTog('+m.n+')"><div class="mod-num '+(m.n===1?'mn-active':'mn-todo')+'" id="fmn'+m.n+'">'+m.n+'</div><div class="mod-info"><div class="mod-title">'+m.t+'</div><div class="mod-desc">'+m.d+'</div></div><div class="mod-meta"><span class="mod-time">'+m.time+'</span><span class="mod-status '+(m.n===1?'ms-active':'ms-todo')+'" id="fms'+m.n+'">'+(m.n===1?'Start here':'To do')+'</span></div><i class="ti ti-chevron-down mod-chev" id="fmc'+m.n+'"></i></div><div class="mod-body" id="fmb'+m.n+'"><div class="mod-content">'+m.c+'</div><button class="complete-btn" id="fcb'+m.n+'" onclick="fDo('+m.n+')">Mark as complete &#10003;</button></div></div>').join('');
+  fTog(1);
+}
+function fTog(n){
+  fMods.forEach(m=>{document.getElementById('fmb'+m.n).style.display='none';document.getElementById('fmc'+m.n).classList.remove('open');});
+  document.getElementById('fmb'+n).style.display='block';document.getElementById('fmc'+n).classList.add('open');
+}
+function fDo(n){
+  fDone.add(n);
+  const nm=document.getElementById('fmn'+n);nm.className='mod-num mn-done';nm.textContent='\u2713';
+  const st=document.getElementById('fms'+n);st.className='mod-status ms-done';st.textContent='Complete';
+  const bt=document.getElementById('fcb'+n);bt.textContent='\u2713 Completed';bt.classList.add('done');bt.disabled=true;
+  const pct=Math.round((fDone.size/6)*100);
+  document.getElementById('f-prog-fill').style.width=pct+'%';
+  document.getElementById('f-prog-text').textContent=fDone.size+' of 6 modules complete';
+  if(n<6){
+    setTimeout(()=>{
+      const nx=document.getElementById('fmn'+(n+1));
+      if(nx&&nx.className.includes('mn-todo')){nx.className='mod-num mn-active';document.getElementById('fms'+(n+1)).className='mod-status ms-active';document.getElementById('fms'+(n+1)).textContent='Up next';}
+      fTog(n+1);document.getElementById('fm'+(n+1)).scrollIntoView({behavior:'smooth',block:'start'});
+    },400);
+  }
+  if(fDone.size===6){setTimeout(()=>{document.getElementById('f-complete').style.display='block';document.getElementById('f-complete').scrollIntoView({behavior:'smooth',block:'start'});},600);}
+}
+fInit();
+</script>
+</body>
+</html>
